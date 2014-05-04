@@ -1,4 +1,7 @@
-// These two functions will be called by router.js
+// Generally the codes here are writter step by step, I commented old one just 
+// To remind myself what happened before this. (I should just use Github earlier)
+
+// These three functions will be called by router.js
 
 //var exec = require("child_process").exec;
 var querystring = require("querystring"); // This helps us to parse the post data
@@ -7,7 +10,9 @@ var formidable = require("formidable");
 
 function start(response, request) { // The real handling function
 	console.log("Request handler 'start' was called");
-
+	
+	// This is horrible, but the book did this...
+	// I will change this later, don't worry :)
 	var body = '<html><head><meta charset="utf-8" content="text/html" http-equiv="Content-Type"></head><body><form action="/upload" enctype="multipart/form-data" method="POST"><input type="file" name="upload" /><input type="submit" value="Upload file" /></form></body></html>';
 	
 	response.writeHead(200, {"Content-Type": "text/html"});
@@ -28,12 +33,14 @@ function upload(response, request) {	// The serious handling function
 			}
 		});
 	});
+	// Write to response
 	response.writeHead(200, {"Content-Type": "text/html"});
 	response.write("received: <br/>"); // Transform the post data here
 	response.write("<img src='/show' />");
 	response.end();
 }
 
+// To show an image
 function show(response, request) {
 	console.log("Request handler 'show' was called.");
 	// Use formidable module
