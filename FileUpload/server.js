@@ -1,5 +1,9 @@
 // The server, takes parameter, pass it to router
 
+
+// All commented codes are previous versions, kept for reference
+// Tried to write all the reasons for my codes so that I can remember what happened
+
 var http = require("http");
 var url = require("url");
 
