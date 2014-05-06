@@ -4,8 +4,8 @@ var server = require("./server");
 var router = require("./router");
 var requestHandler = require("./requestHandler");
 
-var handle = {} // An object
-handle["/"] = requestHandler.start; // Save functions as the value
+var handle = {} // An object that holds functions
+handle["/"] = requestHandler.start; // Save functions as values
 handle["/start"] = requestHandler.start; 
 handle["/upload"] = requestHandler.upload;
 handle["/show"] = requestHandler.show;
