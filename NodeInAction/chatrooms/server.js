@@ -3,7 +3,7 @@
 var http = require('http');
 var fs = require('fs');
 var path = require('path');
-var mime = require('path');
+var mime = require('mime');
 var cache = {};
 
 var filePath = false;
@@ -17,6 +17,9 @@ var server = http.createServer(function(request, response) {
     var absPath = './' + filePath;
     serveStatic(response, cache, absPath);
 });
+server.listen(8000, function() {
+    console.log('Server listening on port 8000');
+});
 
 function send404(response) {
     response.writeHead(404, {'Content-Type': 'text/plain'});
@@ -25,7 +28,7 @@ function send404(response) {
 }
 
 function sendFile(response, filePath, fileContents) {
-    response.writeHEad(200, {'Content-Type': mime.loopip(path.basename(filePath))});
+    response.writeHead(200, {'Content-Type': mime.lookup(path.basename(filePath))});
     response.end(fileContents);
 }
 
