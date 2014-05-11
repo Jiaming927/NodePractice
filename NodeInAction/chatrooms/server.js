@@ -1,13 +1,12 @@
 // File server
 
 var chatServer = require('./lib/chat_server');
-chatServer.listen(server);
 var http = require('http');
 var fs = require('fs');
 var path = require('path');
 var mime = require('mime');
 var cache = {};
-
+chatServer.listen(server);
 
 var filePath = false;
 var server = http.createServer(function(request, response) {

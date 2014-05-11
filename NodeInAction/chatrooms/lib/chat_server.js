@@ -62,7 +62,6 @@ function joinRoom(socket, room) {
 }
 
 // Handles name changes
-
 function handleNameChangeAttempts(socket, nickNames, namesUsed) {
     socket.on('nameAttempt', function(name) {
         if (name.indexOf('Guest') == 0) {
@@ -97,4 +96,30 @@ function handleNameChangeAttempts(socket, nickNames, namesUsed) {
     });
 }
 
+// Broadcast messages
+function handleMessageBroadcasting(socket) {
+    socket.on('message', function(message) {
+        socket.broadcast.to(message.room).emit('message',
+        {
+            text: nickNames[socket.id] + ': ' + message.text
+        });
+    });
+}
+
+// Joining room
+function handleRoomJoining(socket) {
+    socket.on('join', function(room) {
+        socket.leave(currentRoom[socket.id]);
+        joinRoom(socket, room.newRoom);
+    });
+}
+
+// Disconnect
+function handleClientDisconnection(socket) {
+    socket.on('disconnect', function() {
+        var nameIndex = nameUsed.indexOf(nickNames[socket.id]);
+        delete namesUsed[nameIndex];
+        delete nickNames[socket.id];
+    });
+}
 exports.listen = listen;
