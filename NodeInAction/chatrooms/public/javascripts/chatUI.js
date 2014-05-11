@@ -16,12 +16,12 @@ $(document).ready(function() {
 
     socket.on('joinResult', function(result) {
         $('#room').text(result.room);
-        $('#messages').append(divSystemContentElement(message);
+        $('#messages').append(divSystemContentElement('Room changed.'));
     });
 
     socket.on('message', function(message) {
         var newElement = $('<div></div>').text(message.text);
-        $('#message').append(newElement);
+        $('#messages').append(newElement);
     });
 
     socket.on('rooms', function(rooms) {
@@ -71,10 +71,9 @@ function processUserInput(chatApp, socket) {
             $('#message').append(divSystemContentElement(systemMessage));
         }
     } else {
-        chatApp.sendMessage($('#room').text(), message) {
+        chatApp.sendMessage($('#room').text(), message);
             $('#messages').append(divEscapedContentElement(message));
             $('#messages').scrollTop($('#messages').prop('scrollHeight'));
-        }
         $('#send-message').val('');
     }
 }
