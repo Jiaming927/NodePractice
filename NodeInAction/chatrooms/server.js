@@ -20,8 +20,8 @@ var server = http.createServer(function(request, response) {
     serveStatic(response, cache, absPath);
 });
 
-server.listen(8000, function() {
-    console.log('Server listening on port 8000');
+server.listen(8888, function() {
+    console.log('Server listening on port 8888');
 });
 
 // Error function

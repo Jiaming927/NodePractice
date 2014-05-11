@@ -7,7 +7,7 @@ var currentRoom = {};
 
 function listen(server) {
     io = socketio.listen(server);
-    io = set('log level', 1);
+    io.set('log level', 1);
     io.sockets.on('connection', function (socket) {
         guestNumber = assignGuestName(socket, guestNumber, nickNames, namesUsed);
         joinRoom(socket, 'Lobby');
@@ -39,7 +39,7 @@ function assignGuestName(socket, guestNumber, nickNames, namesUsed) {
 function joinRoom(socket, room) {
     socket.join(room);
     currentRoom[socket.id] = room;
-    socket.emit('joinResult', (room: room));
+    socket.emit('joinResult', {room: room});
     socket.broadcast.to(room).emit('message', {
         text: nickNames[socket.id] + ' has joined ' + room + '.'
     });
@@ -57,7 +57,7 @@ function joinRoom(socket, room) {
             }
         }
         usersInRoomSummary += '.';
-        socket.emit('message', (text: usersInRoomSummary));
+        socket.emit('message', {text: usersInRoomSummary});
     }
 }
 
@@ -82,7 +82,7 @@ function handleNameChangeAttempts(socket, nickNames, namesUsed) {
                         success:true,
                         name: name
                     }
-                });
+                );
                 socket.broadcast.to(currentRoom[socket.id]).emit('message', {
                     text: previousName + ' is now knowns as ' + name + '.'
                 });
