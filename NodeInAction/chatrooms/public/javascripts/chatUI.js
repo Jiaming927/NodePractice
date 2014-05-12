@@ -1,3 +1,5 @@
+// This js file handles UI interacting
+
 var socket = io.connect();
 
 $(document).ready(function() {
