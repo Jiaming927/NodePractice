@@ -1,3 +1,6 @@
+// Defines a Chat class
+// This class handles all the logics in Chat
+
 var Chat = function(socket) {
     this.socket = socket;
 };
