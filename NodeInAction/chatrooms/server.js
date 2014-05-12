@@ -1,4 +1,6 @@
-// File server
+// Server serves everyone(without getting a tip)
+// It initialize everything and every helper function
+// Also it listens to some port
 
 var chatServer = require('./lib/chat_server');
 var http = require('http');
