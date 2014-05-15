@@ -18,10 +18,12 @@ channel.on('join', function(id, client) {
 
 var server = net.createServer(function(client) {
     var id = client.remoteAddress + ":" + client.remotePort;
+    
     client.on('connect', function() { // Joining the channel
         console.log("emitting join");
         channel.emit('join', id, client);
     });
+
     client.on('data', function(data) { // Writing to someone else
         console.log("emitting broadcast");
         data = data.toString();
