@@ -8,13 +8,22 @@ channel.subscriptions = {};
 channel.on('join', function(id, client) {
     this.clients[id] = client;
     this.subscriptions[id] = function(senderId, message) {
-        console.log('Ready to send messages');
         if (id != senderId) {
-            console.log('Sending...');
-            this.clients[id].write(message);
+            this.clients[id].write(senderId + ' said: ' + message);
         }
     }
     this.on('broadcast', channel.subscriptions[id]);
+});
+
+channel.on('leave', function(id) {
+    console.log(id + ' left');
+    this.removeListener('broadcase', this.subscriptions[id]);
+    channel.emit('broadcast', id, id + ' has left you suckers\n');
+});
+
+channel.on('shutdown', function() {
+        channel.emit('broadcast', '', 'Someone just nuke this chatroom');
+        channel.removeAllListeners('broadcast');
 });
 
 var server = net.createServer(function(client) {
@@ -22,7 +31,7 @@ var server = net.createServer(function(client) {
     console.log(id + ' is now connected');
     channel.emit('join', id, client); // This is the code I added
 
-    // The commented codes below this is the code provided in the book
+    // The commented codes below this are the codes provided in the book
     // But it's NOT working ('join' is never emitted)
     // I commented it out, and add this emit statement above, then it works
     // Also, the commented codes below do not make sense to me
@@ -38,7 +47,14 @@ var server = net.createServer(function(client) {
     client.on('data', function(data) { // Writing to someone else
         console.log('emitting broadcast');
         data = data.toString();
+        if (data == 'nuke this shit\r\n') {
+            channel.emit('shutdown');
+        }
         channel.emit('broadcast', id, data);
+    });
+
+    client.on('close', function() {
+        channel.emit('leave', id);
     });
 });
 
