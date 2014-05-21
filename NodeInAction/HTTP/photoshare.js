@@ -37,8 +37,33 @@ function upload(req, res) {
     }
 
     var form = new formidable.IncomingForm(); // Initialize
-    form.parse(req); // Parse the request here
-    
+
+    // Old way to parse file, form.parse is simpler(higher level)
+    // form.on('field', function(field, value) {
+    //     console.log(field);
+    //     console.log(value);
+    // });
+    //
+    // form.on('file', function(name, file) {
+    //     console.log(name);
+    //     console.log(file);
+    // });
+    //
+    // form.on('end', function() {
+    //     res.end('upload complete!');
+    // });
+
+    // Shows the progress of everything
+    form.on('progress', function(bytesReceived, bytesExpected) {
+        var percent = Math.floor(bytesReceived / bytesExpected * 100);
+        console.log(percent);
+    })
+    // Better way
+    form.parse(req, function(err, fields, files) {
+        console.log(fields);
+        console.log(files);
+        res.end('upload complete!');
+    });
 }
 
 function isFormData(req) {
