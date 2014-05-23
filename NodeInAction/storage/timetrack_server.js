@@ -1,5 +1,5 @@
 var http = require('http');
-var work = require('./lib/timetrack')
+var work = require('./timetrack')
 var mysql = require('mysql');
 
 var db = mysql.createConnection( {
@@ -7,7 +7,7 @@ var db = mysql.createConnection( {
     user: 'myuser',
     password: 'mypassword',
     database: 'timetrack'
-})
+});
 
 var server = http.createServer(function(req, res) {
     switch (req.method) {
