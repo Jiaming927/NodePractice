@@ -22,7 +22,8 @@ function hello(req, res) { // No next needed because it responds here
     res.end('Hello World\n');
 }
 
-function authenticateWithDatabase(user, pass, callback) {
+// Fun thing about this function, this is not even mentioned in the book..
+function authenticateWithDatabase(user, pass, callback) { // hardcoded authorization
   var err;
   if (user != 'tobi' || pass != 'ferret') {
     err = new Error('Unauthorized');
