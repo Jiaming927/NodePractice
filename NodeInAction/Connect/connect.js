@@ -19,7 +19,15 @@ function logger(req, res, next) { // next means next middleware
 
 function hello(req, res) { // No next needed because it responds here
     res.setHeader('Content-Type', 'text/plain');
-    res.end('Hello World');
+    res.end('Hello World\n');
+}
+
+function authenticateWithDatabase(user, pass, callback) {
+  var err;
+  if (user != 'tobi' || pass != 'ferret') {
+    err = new Error('Unauthorized');
+  }
+  callback(err);
 }
 
 // Restricted access
@@ -37,7 +45,7 @@ function restrict(req, res, next) {
     authenticateWithDatabase(user, pass, function (err) {
         if (err) return next(err);
         next();
-    })
+    });
 }
 
 function admin(req, res, next) {
@@ -47,7 +55,7 @@ function admin(req, res, next) {
         case '/':
             res.end('try /users');
             break;
-        case '/users';
+        case '/users':
             res.setHeader('Content-Type', 'application/json');
             res.end(JSON.stringify(['tobi', 'loki', 'jiaming']));
             break;
