@@ -7,7 +7,10 @@ var connect = require('connect');
 // Better way
 connect()
     .use(logger)
-    .use(hello);
+    .use('/admin', restrict)
+    .use('/admin', admin)
+    .use(hello)
+    .listen(8888);
 
 function logger(req, res, next) { // next means next middleware
     console.log('%s %s', req.method, req.url);
@@ -35,4 +38,18 @@ function restrict(req, res, next) {
         if (err) return next(err);
         next();
     })
+}
+
+function admin(req, res, next) {
+    switch (req.url) {
+        // Uses '/' and '/users' here because Connect strips
+        // prefix before invoking middleware
+        case '/':
+            res.end('try /users');
+            break;
+        case '/users';
+            res.setHeader('Content-Type', 'application/json');
+            res.end(JSON.stringify(['tobi', 'loki', 'jiaming']));
+            break;
+    }
 }
