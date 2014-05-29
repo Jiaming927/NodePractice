@@ -3,6 +3,6 @@ var app = connect()
     .use(connect.cookieParser('tobi is a cool ferret'))
     .use(function(req, res){
         console.log(req.cookies); // Two different objects
-        console.log(req.signedCookies);
+        console.log(req.signedCookies); // To avoid crafted cookie
         res.end('hello\n');
     }).listen(8888);
