@@ -12,8 +12,12 @@ var users = require('./routes/users');
 var app = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
+app.configure(function() {
+    app.set('views', path.join(__dirname, 'views'));
+    app.set('view engine', 'ejs');
+    app.set('photos', __dirname + '/public/photos')
+});
+
 
 app.use(favicon());
 app.use(logger('dev'));
@@ -22,10 +26,11 @@ app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', photos.list);
-//app.use('/users', users);
+app.get('/', photos.list); //List pics
+app.get('/upload', photos.form); // Handles uploading pics
+app.post('/upload', photos.submit(app.get('photos'))); // Handles post
+app.use('/users', users);
 
-//app.get('/', photos.list);
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
     var err = new Error('Not Found');
