@@ -1,4 +1,8 @@
 var photos = [];
+var path = require('path');
+var Photo = require('../models/Photo');
+var fs = require('fs');
+var join = path.join;
 
 photos.push({
     name: 'Node.js Logo',
@@ -11,14 +15,37 @@ photos.push({
 });
 
 exports.list = function(req, res) {
-    res.render('photos', {
-        title: 'Photos',
-        photos: photos
+    Photo.find({}, function(err, photos) {
+        if (err) return next(err);
+        res.render('photos', {
+            title: 'Photos',
+            photos: photos
+        });
     });
-};
+};;
 
 exports.form = function(req, res) {
     res.render('photos/upload', {
         title: 'Photo upload'
     });
+};
+
+exports.submit = function(dir) {
+    return function(req, res) {
+        // var img = req.files.photo.image;
+        // var name = req.body.photo.name || img.name;
+        req.busboy.on('file', function(fieldname, file, filename) {
+            var path = join(dir, filename);
+            fs.rename(file.path, path, function(err) {
+                if (err) return next(err);
+                Photo.create({
+                    name: name,
+                    path: img.name
+                }, function(err) {
+                    if (err) return next(err);
+                    res.redirect('/');
+                });
+            });
+        });
+    };
 };

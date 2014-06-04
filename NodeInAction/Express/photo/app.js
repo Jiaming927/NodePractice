@@ -4,19 +4,18 @@ var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var busboy = require('connect-busboy');
 
 var routes = require('./routes/index');
-var photos = require('./routes/photos');
+var photos = require('./routes/photos'); // Getting this module
 var users = require('./routes/users');
 
 var app = express();
 
 // view engine setup
-app.configure(function() {
-    app.set('views', path.join(__dirname, 'views'));
-    app.set('view engine', 'ejs');
-    app.set('photos', __dirname + '/public/photos')
-});
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+app.set('photos', __dirname + '/public/photos');
 
 
 app.use(favicon());
