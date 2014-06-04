@@ -34,6 +34,8 @@ exports.submit = function(dir) {
     return function(req, res) {
         // var img = req.files.photo.image;
         // var name = req.body.photo.name || img.name;
+        req.pipe(req.busboy);
+        console.log("something");
         req.busboy.on('file', function(fieldname, file, filename) {
             var path = join(dir, filename);
             fs.rename(file.path, path, function(err) {
