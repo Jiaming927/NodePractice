@@ -29,6 +29,7 @@ app.get('/', photos.list); //List pics
 app.get('/upload', photos.form); // Handles uploading pics
 app.post('/upload', photos.submit(app.get('photos'))); // Handles post
 app.use('/users', users);
+app.get('/download', photos.download);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {

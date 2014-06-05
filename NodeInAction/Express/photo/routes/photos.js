@@ -51,3 +51,10 @@ exports.submit = function(dir) {
         });
     };
 };
+
+exports.download = function(req, res) {
+        var ppath = path.resolve('public/images/bb.jpg');
+        console.log(ppath);
+        //res.sendfile(ppath); This will show the file
+        res.download(ppath, 'bb.jpg');
+}
