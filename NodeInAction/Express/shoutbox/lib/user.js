@@ -1,6 +1,6 @@
-var redis = require('redis');
+var redis = require('redis'); // Uses Redis as database
 var bcrypt = require('bcrypt');
-var db = redis.createClient();
+var db = redis.createClient(); 
 
 module.exports = User;
 
@@ -11,6 +11,7 @@ function User(obj) {
 	}
 }
 
+// Define all the functions in User object
 User.prototype.save = function(fn) {
 	if (this.id) {
 		this.update(fn);
@@ -38,12 +39,13 @@ User.prototype.update = function(fn) {
 	});
 };
 
+// Hash pw before save it
 User.prototype.hashPassword = function(fn) {
 	var user = this;
-	bcrypt.genSalt(12, function(err, salt) {
+	bcrypt.genSalt(12, function(err, salt) { // Generates a salt for hashing
 		if (err) return fn(err);
 		user.salt = salt;
-		bcrypt.hash(user.pass, salt, function(err, hash) {
+		bcrypt.hash(user.pass, salt, function(err, hash) { // Hash the password
 			if (err) return fn(err);
 			user.pass = hash;
 			fn();
@@ -69,6 +71,8 @@ User.get = function(id, fn) {
 	});
 };
 
+// Authenticate pw and username
+// Only compare the hash, so no one can see the pw anywhere
 User.authenticate = function(name, pass, fn) {
 	User.getByName(name, function(err, user){
 		if (err) return fn(err); // If user not found
