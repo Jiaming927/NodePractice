@@ -1,4 +1,5 @@
 var express = require('express');
+var session = require('express-session'); // Install this seperately
 var path = require('path');
 var favicon = require('static-favicon');
 var logger = require('morgan');
@@ -8,6 +9,8 @@ var register = require('./routes/register');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var register = require('./routes/register');
+var messages = require('./lib/messages');
 
 var app = express();
 
@@ -19,12 +22,15 @@ app.use(favicon());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
-app.use(cookieParser());
+app.use(cookieParser('THERE IS NO SECRET'));
+//app.use(express.session()); This line no longer works, express changed, see above to know how to fix this
+app.use(session()); // This one works, see session variable above
+app.use(messages);
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
-app.get('/register', register.form);
+app.get('/register', register.form); // Add routes
 app.post('/register', register.submit);
 
 /// catch 404 and forward to error handler
@@ -60,3 +66,5 @@ app.use(function(err, req, res, next) {
 
 
 module.exports = app;
+
+app.listen(8888);
