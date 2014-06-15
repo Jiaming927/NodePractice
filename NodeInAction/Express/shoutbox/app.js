@@ -7,6 +7,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var register = require('./routes/register');
 var login = require('./routes/login');
+var entries = require('./routes/entries');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -39,6 +40,7 @@ app.post('/register', register.submit);
 app.get('/login', login.form);
 app.post('/login', login.submit);
 app.get('/logout', login.logout);
+app.get('/', entries.list);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
