@@ -10,6 +10,7 @@ var login = require('./routes/login');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var user = require('./lib/middleware/user');
 var register = require('./routes/register');
 var messages = require('./lib/messages');
 
@@ -24,10 +25,12 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser('THERE IS NO SECRET'));
+app.use(express.static(path.join(__dirname, 'public')));
 //app.use(express.session()); This line no longer works, express changed, see above to know how to fix this
 app.use(session()); // This one works, see session variable above
+app.use(user);
 app.use(messages);
-app.use(express.static(path.join(__dirname, 'public')));
+//app.use(app.router); Deprecated in Express 4.0
 
 app.use('/', routes);
 app.use('/users', users);
