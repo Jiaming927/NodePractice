@@ -6,6 +6,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var register = require('./routes/register');
+var login = require('./routes/login');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -32,6 +33,9 @@ app.use('/', routes);
 app.use('/users', users);
 app.get('/register', register.form); // Add routes
 app.post('/register', register.submit);
+app.get('/login', login.form);
+app.post('/login', login.submit);
+app.get('/logout', login.logout);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
