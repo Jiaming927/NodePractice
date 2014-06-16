@@ -22,6 +22,8 @@ var user = require('./lib/middleware/user');
 var register = require('./routes/register');
 var messages = require('./lib/messages');
 var validate = require('./lib/middleware/validate');
+var page = require('./lib/middleware/page'); // Pager middleware
+var entry = require('./lib/entry');
 
 var app = express();
 
@@ -42,7 +44,7 @@ app.use(messages);
 //app.use(app.router); Deprecated in Express 4.0
 
 //app.use('/', routes);
-app.get('/', entries.list)
+app.get('/', page(Entry.count, 5), entries.list);
 app.use('/users', users);
 app.get('/register', register.form); // Add routes
 app.post('/register', register.submit);
