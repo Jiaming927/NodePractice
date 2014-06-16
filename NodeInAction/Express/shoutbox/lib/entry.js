@@ -22,8 +22,8 @@ Entry.prototype.save = function(fn) { // Save entries to database
 	};
 };
 
-Entry.getRange = function(from, to, fn) { // Get a list of entries
-	db.lrange('entries', from, to, function(err, items) {
+Entry.getRange = function(from, to, fn) { // Get a list of entries (with range)
+	db.lrange('entries', from, to, function(err, items) { // Gets it from db
 		if (err) return fn(err);
 		var entries = [];
 		items.forEach(function(item) {
