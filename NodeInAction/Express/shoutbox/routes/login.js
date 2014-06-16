@@ -1,3 +1,5 @@
+var User = require('../lib/user');
+
 exports.form = function(req, res) {
 	res.render('login', {title: 'Login'});
 };
@@ -8,7 +10,7 @@ exports.submit = function(req, res, next) {
 		if (err) return next(err);
 		if (user) {
 			req.session.uid = user.id; // Set session
-			req.redirect('/');
+			res.redirect('/');
 		} else {
 			res.error("Sorry! invalid credentials.");
 			res.redirect('back');

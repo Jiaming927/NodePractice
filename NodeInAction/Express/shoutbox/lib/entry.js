@@ -12,14 +12,14 @@ function Entry(obj) {
 Entry.prototype.save = function(fn) { // Save entries to database
 	var entryJSON = JSON.stringify(this);
 
-	db.lpush{
+	db.lpush(
 		'entries',
 		entryJSON,
 		function(err) {
 			if (err) return fn(err);
 			fn();
 		}
-	};
+	);
 };
 
 Entry.getRange = function(from, to, fn) { // Get a list of entries (with range)

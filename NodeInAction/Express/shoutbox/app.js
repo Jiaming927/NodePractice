@@ -21,6 +21,7 @@ var users = require('./routes/users');
 var user = require('./lib/middleware/user');
 var register = require('./routes/register');
 var messages = require('./lib/messages');
+var validate = require('./lib/middleware/validate');
 
 var app = express();
 
@@ -49,7 +50,11 @@ app.get('/login', login.form);
 app.post('/login', login.submit);
 app.get('/logout', login.logout);
 app.get('/post', entries.form); // Displays a form
-app.post('/post', entries.submit); // When receive a post request
+// Add middleware validating
+app.post('/post', 
+        validate.required('entry[title]'),
+        validate.lengthAbove('entry[title]', 4),
+        entries.submit); // When receive a post request
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
