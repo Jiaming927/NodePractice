@@ -34,3 +34,7 @@ Entry.getRange = function(from, to, fn) { // Get a list of entries (with range)
 	});
 };
 
+Entry.count = function(fn) {
+	db.llen('entries', fn);
+};
+

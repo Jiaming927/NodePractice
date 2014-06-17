@@ -3,6 +3,9 @@
 // 1, some templates in views
 // 2, change app.js to route to some function
 // 3, an (object?, like a router) that contains the functions
+// Route: the js file that handles returning stuffs
+// Lib: objects and middleware
+// Views: templates
 
 var express = require('express');
 var session = require('express-session'); // Install this seperately
@@ -23,7 +26,7 @@ var register = require('./routes/register');
 var messages = require('./lib/messages');
 var validate = require('./lib/middleware/validate');
 var page = require('./lib/middleware/page'); // Pager middleware
-var entry = require('./lib/entry');
+var Entry = require('./lib/entry');
 
 var app = express();
 
@@ -44,7 +47,7 @@ app.use(messages);
 //app.use(app.router); Deprecated in Express 4.0
 
 //app.use('/', routes);
-app.get('/', page(Entry.count, 5), entries.list);
+//app.get('/', page(Entry.count, 5), entries.list); See below to allow optional parameter
 app.use('/users', users);
 app.get('/register', register.form); // Add routes
 app.post('/register', register.submit);
@@ -57,6 +60,7 @@ app.post('/post',
         validate.required('entry[title]'),
         validate.lengthAbove('entry[title]', 4),
         entries.submit); // When receive a post request
+app.get('/:page?', page(Entry.count, 5), entrie.list); // This one here, optional parameter
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
