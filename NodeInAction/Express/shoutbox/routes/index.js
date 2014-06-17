@@ -1,9 +1,18 @@
-var express = require('express');
-var router = express.Router();
-
-/* GET home page. */
-router.get('/', function(req, res) {
-  res.render('index', { title: 'Express' });
-});
-
-module.exports = router;
+exports.notfound = function(req, res) {
+	res.status(404).format({
+		html: function() {
+			res.render('494');
+		},
+		json: function() {
+			res.send({ message: 'Resource not found' });
+		},
+		xml: function() {
+			res.write('<error>\n');
+			res.write('		<message>Resource not found</message>\n');
+			res.end('</error>\n');
+		},
+		text: function() {
+			res.send('Resource not found\n');
+		}
+	});
+};

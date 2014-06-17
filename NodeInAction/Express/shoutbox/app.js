@@ -17,6 +17,7 @@ var bodyParser = require('body-parser');
 var register = require('./routes/register');
 var login = require('./routes/login');
 var entries = require('./routes/entries');
+var api = require('./routes/api');
 
 var routes = require('./routes/index');
 var entries = require('./routes/entries'); // Show all entries
@@ -42,6 +43,7 @@ app.use(cookieParser('THERE IS NO SECRET'));
 app.use(express.static(path.join(__dirname, 'public')));
 //app.use(express.session()); This line no longer works, express changed, see above to know how to fix this
 app.use(session()); // This one works, see session variable above
+app.use('/api', api.auth);
 app.use(user);
 app.use(messages);
 //app.use(app.router); Deprecated in Express 4.0
@@ -60,7 +62,14 @@ app.post('/post',
         validate.required('entry[title]'),
         validate.lengthAbove('entry[title]', 4),
         entries.submit); // When receive a post request
+// More notes about things like /:page
+// This is the same as ?page=1 and {"page": 1}
 app.get('/:page?', page(Entry.count, 5), entrie.list); // This one here, optional parameter
+// API routes
+app.get('/api/user/:id', api.user);
+app.get('/api/entries/:page?', page(Entry.count),api.entries);
+app.post('/api/entry', entries.submit); // Add things to entry
+
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {

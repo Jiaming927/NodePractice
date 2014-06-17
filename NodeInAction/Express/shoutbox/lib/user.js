@@ -53,6 +53,15 @@ User.prototype.hashPassword = function(fn) {
 	});
 };
 
+// Change the JSON function to protect User's privacy
+// toJSON is used by JSON.stringify
+User.prototype.toJSON = function() {
+	return {
+		id: this.id,
+		name: this.name
+	}
+};
+
 User.getByName = function(name, fn) {
 	User.getId(name, function(err, id) { // Gets the id back
 		if (err) return fn(err);

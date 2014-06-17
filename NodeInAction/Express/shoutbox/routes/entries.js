@@ -28,6 +28,10 @@ exports.submit = function(req, res, next) {
 	// Use the save function we put in prototype
 	entry.save(function(err) {
 		if (err) return next(err);
-		res.redirect('/');
+		if (req.remoteUser) {
+			res.json({message: 'Entry added.'});
+		} else {
+			res.redirect('/');
+		}
 	});
 };
