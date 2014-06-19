@@ -47,6 +47,8 @@ app.use('/api', api.auth);
 app.use(user);
 app.use(messages);
 //app.use(app.router); Deprecated in Express 4.0
+app.use(routes.notfound); // Better handling of not found
+app.use(routes.error); // Better error handling
 
 //app.use('/', routes);
 //app.get('/', page(Entry.count, 5), entries.list); See below to allow optional parameter
