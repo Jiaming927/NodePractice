@@ -18,4 +18,4 @@ c.writeUInt32LE();
 
 cnosole.log(c.length);
 
-console.log(b);
+console.log(c);
