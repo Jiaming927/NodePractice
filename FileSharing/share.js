@@ -5,10 +5,10 @@ var path = require('path');
 var mime = require('mime');
 
 function handler(req, res) {
-	var mimetype = mime.lookup('installer_win.exe');
-	res.setHeader('Content-disposition', 'installer_win.exe');
+	var mimetype = mime.lookup('share.ppt');
+	res.setHeader('Content-disposition', 'share.ppt');
   	res.setHeader('Content-type', mimetype);
-	var filestream = fs.createReadStream('installer_win.exe');
+	var filestream = fs.createReadStream('share.ppt');
 	filestream.pipe(res);
 }
 
