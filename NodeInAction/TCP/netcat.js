@@ -1,3 +1,5 @@
+// Replica of netcat command
+
 var net = require('net');
 var host = process.argv[2];
 var port = Number(process.argv[3]);

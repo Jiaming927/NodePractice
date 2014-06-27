@@ -7,6 +7,7 @@ console.log(b);
 
 // Buffer is like an array of raw data
 
+// More efficient, less size occupied
 writeInt16LE(); // Smaller int
 
 writeUInt32LE(); // unsigned values
@@ -19,3 +20,4 @@ c.writeUInt32LE();
 cnosole.log(c.length);
 
 console.log(c);
+// <Buffer b5 e5 39 07>
