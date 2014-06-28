@@ -24,3 +24,9 @@ module.exports = function move(oldPath, newPath, callback) {
 		readStream.pipe(writeStream);
 	}
 }
+
+fs.watchFile('/var/log/system.log', function(curr, prev) {
+	if (curr.mtime.getTime() !== prev.mtime.getTime()) {
+		console.log('"System.log" has been modified');
+	}
+});
